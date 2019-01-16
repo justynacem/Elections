@@ -42,6 +42,28 @@ public class PoliticalPartyService {
         }
     }
 
+    public List<PoliticalPartyDto> getAllPoliticalParties() {
+        try {
+            return politicalPartyRepository
+                    .findAll()
+                    .stream()
+                    .map(modelMapper::fromPoliticalPartyToPoliticalPartyDto)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new MyException(ExceptionCode.SERVICE, "GET ALL POLITICAL PARTIES: " + e);
+        }
+    }
+
+    public void deletePoliticalParty(Long politicalPartyId) {
+        try {
+            PoliticalParty politicalParty = politicalPartyRepository.findById(politicalPartyId)
+                    .orElseThrow(NullPointerException::new);
+            politicalPartyRepository.delete(politicalParty);
+        } catch (Exception e) {
+            throw new MyException(ExceptionCode.SERVICE, "DELETE POLITICAL PARTY: " + e);
+        }
+    }
+
     public Map<PoliticalPartyDto, Integer> getAllPoliticalPartiesByVotes() {
         Map<PoliticalPartyDto, Integer> partiesVotes = new LinkedHashMap<>();
 
