@@ -18,6 +18,10 @@ public class PoliticalPartyValidator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
         try {
+            if (o == null) {
+                throw new NullPointerException("OBJECT IS NULL");
+            }
+
             PoliticalPartyDto politicalPartyDto = (PoliticalPartyDto) o;
             String name = politicalPartyDto.getName();
             if (name == null || name.equals("")) {

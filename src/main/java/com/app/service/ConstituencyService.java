@@ -46,4 +46,14 @@ public class ConstituencyService {
             throw new MyException(ExceptionCode.SERVICE, "GET ALL CONSTITUENCIES: " + e);
         }
     }
+
+    public void deleteConstituency(Long constituencyId) {
+        try {
+            Constituency constituency = constituencyRepository.findById(constituencyId)
+                    .orElseThrow(NullPointerException::new);
+            constituencyRepository.delete(constituency);
+        } catch (Exception e) {
+            throw new MyException(ExceptionCode.SERVICE, "DELETE CONSTITUENCY: " + e);
+        }
+    }
 }

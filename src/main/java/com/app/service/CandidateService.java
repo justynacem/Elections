@@ -93,6 +93,16 @@ public class CandidateService {
         }
     }
 
+    public void deleteCandidate(Long candidateId) {
+        try {
+            Candidate candidate = candidateRepository.findById(candidateId)
+                    .orElseThrow(NullPointerException::new);
+            candidateRepository.delete(candidate);
+        } catch (Exception e) {
+            throw new MyException(ExceptionCode.SERVICE, "DELETE CANDIDATE: " + e);
+        }
+    }
+
     public Map<CandidateDto, VoteDto> getAllCandidatesByVotes() {
         try {
             Map<Candidate, Vote> map = voteRepository

@@ -2,8 +2,7 @@ package com.app.model;
 
 public enum Role {
     USER ("ROLE_USER"),
-    ADMIN ("ROLE_ADMIN"),
-    SUPER ("ROLE_SUPER");
+    ADMIN ("ROLE_ADMIN");
 
     private String fullName;
 
