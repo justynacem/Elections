@@ -1,0 +1,46 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light"
+     xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
+    <a class="navbar-brand" href="#">Main page</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li sec:authorize="hasAnyRole('USER', 'ADMIN')" class="nav-item mr-3">
+                <a class="nav-link" href="/voters/add">Add Voter</a>
+            </li>
+            <li sec:authorize="hasAnyRole('ADMIN')" class="nav-item mr-3">
+                <a class="nav-link" href="/politicalParties/">Political Parties</a>
+            </li>
+            <li sec:authorize="hasAnyRole('ADMIN')" class="nav-item mr-3">
+                <a class="nav-link" href="/politicalParties/add">Add Political Party</a>
+            </li>
+            <li sec:authorize="hasAnyRole('ADMIN')" class="nav-item mr-3">
+                <a class="nav-link" href="/constituencies/">Constituencies</a>
+            </li>
+            <li sec:authorize="hasAnyRole('ADMIN')" class="nav-item mr-3">
+                <a class="nav-link" href="/constituencies/add">Add Constituency</a>
+            </li>
+            <li sec:authorize="hasAnyRole('ADMIN')" class="nav-item mr-3">
+                <a class="nav-link" href="/candidates/">Candidates</a>
+            </li>
+            <li sec:authorize="hasAnyRole('ADMIN')" class="nav-item mr-3">
+                <a class="nav-link" href="/candidates/add">Add Candidate</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            <li sec:authorize="isAuthenticated()" class="nav-item mr-3" sec:authentication="principal.username"></li>
+            <li sec:authorize="!isAuthenticated()" class="nav-item mr-3"><a th:href="@{/login}">Login</a></li>
+            <li sec:authorize="!isAuthenticated()" class="nav-item mr-3"><a th:href="@{/users/register}">Register</a></li>
+            <li sec:authorize="isAuthenticated()" class="nav-item">
+                <form th:action="@{/app-logout}" method="post" class="form-inline my-2 my-lg-0">
+                    <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
+                </form>
+            </li>
+        </ul>
+
+    </div>
+</nav>

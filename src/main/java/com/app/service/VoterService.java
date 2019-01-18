@@ -53,7 +53,7 @@ public class VoterService {
                     voterDto.getConstituencyDto().getId())
                     .orElseThrow(NullPointerException::new);
 
-            TokenService tokenService = new TokenService();
+            TokenService tokenService = new TokenService(tokenRepository, modelMapper);
             Token token = Token.builder()
                     .tokenValue(tokenService.newToken())
                     .expirationDate(LocalDateTime.now().plusHours(3))

@@ -41,11 +41,11 @@ public class CandidateValidator implements Validator {
             }
 
             if (candidateDto.getConstituencyDto() == null) {
-                errors.rejectValue("constituencyDTO", "CONSTITUENCY IS NULL");
+                errors.rejectValue("constituencyDto", "CONSTITUENCY IS NULL");
             }
 
             if (candidateDto.getPoliticalPartyDto() == null) {
-                errors.rejectValue("politicalPartyDTO", "POLITICAL PARTY IS NULL");
+                errors.rejectValue("politicalPartyDto", "POLITICAL PARTY IS NULL");
             }
 
             if (candidateDto.getFile() == null || candidateDto.getFile().getBytes().length <= 0) {

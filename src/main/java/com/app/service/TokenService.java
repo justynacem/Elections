@@ -31,26 +31,6 @@ public class TokenService {
         return token.toString();
     }
 
-    public TokenDto findToken(Voter voter) {
-        Optional<TokenDto> TokenDto = Optional.empty();
-
-        try {
-            TokenDto = tokenRepository
-                    .findAll()
-                    .stream()
-                    .filter(t -> t.getVoter().equals(voter))
-                    .map(modelMapper::fromTokenToTokenDto)
-                    .findFirst();
-
-            if (TokenDto.isPresent()) {
-                return TokenDto.get();
-            } else throw new NullPointerException("VOTER'S TOKEN IS NULL.");
-
-        } catch (Exception e) {
-            throw new MyException(ExceptionCode.SERVICE, "FIND TOKEN: " + e);
-        }
-    }
-
     public TokenDto getTokenById(Long id) {
         try {
             if (id == null) {

@@ -72,6 +72,12 @@ public class CandidateController {
         return "candidates/all";
     }
 
+    @GetMapping("/{id}")
+    public String getOneCandidate(@PathVariable Long id, Model model) {
+        model.addAttribute("candidate", candidateService.getOneCandidate(id));
+        return "candidates/one";
+    }
+
     @PostMapping("/delete")
     public String deleteCandidate(@RequestParam Long id) {
         candidateService.deleteCandidate(id);

@@ -63,38 +63,4 @@ public class PoliticalPartyService {
             throw new MyException(ExceptionCode.SERVICE, "DELETE POLITICAL PARTY: " + e);
         }
     }
-
-    public Map<PoliticalPartyDto, Integer> getAllPoliticalPartiesByVotes() {
-        Map<PoliticalPartyDto, Integer> partiesVotes = new LinkedHashMap<>();
-
-        try {
-            Map<Candidate, Integer> map = voteRepository
-                    .findAll()
-                    .stream()
-                    .collect(Collectors.toMap(
-                            e -> candidateRepository.findById(e.getCandidate().getId()).get(),
-                            e -> e.getVotes(),
-                            (v1, v2) -> v1,
-                            () -> new HashMap<>()
-                    ));
-            for (Map.Entry<Candidate, Integer> entry : map.entrySet()) {
-                PoliticalPartyDto politicalPartyDto = modelMapper.fromPoliticalPartyToPoliticalPartyDto(
-                        politicalPartyRepository.findById(entry.getKey().getPoliticalParty().getId()).get());
-                if (partiesVotes.keySet().contains(politicalPartyDto)) {
-                    partiesVotes.put(politicalPartyDto,
-                            partiesVotes.get(politicalPartyDto) + entry.getValue());
-                } else {
-                    partiesVotes.put(politicalPartyDto,
-                            entry.getValue());
-                }
-                partiesVotes
-                        .entrySet()
-                        .stream()
-                        .sorted(Comparator.comparing(e -> e.getValue(), Comparator.reverseOrder()));
-            }
-        } catch (Exception e) {
-            throw new MyException(ExceptionCode.SERVICE, "GET ALL POLITICAL PARTIES BY VOTES: " + e);
-        }
-        return partiesVotes;
-    }
 }

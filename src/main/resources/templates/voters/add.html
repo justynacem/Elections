@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/webjars/bootstrap/4.1.3/css/bootstrap.min.css"/>
+	<script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+	<script src="/webjars/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<title>Add Voter</title>
+</head>
+<body>
+<div th:replace="fragments/menu">Menu</div>
+
+<div class="container">
+	<div class="col-8 offset-2">
+		<h3 class="text text-center">Add Voter</h3>
+	</div>
+	<div class="col-8 offset-2">
+		<form method="post" th:action="@{/voters/showToken}" th:object="${voter}"
+			  enctype="multipart/form-data">
+			<div class="form-group">
+				<label class="text" for="gender">GENDER</label>
+				<ul id="gender" class="list-inline">
+					<li class="list-item" th:each="g : ${genders}">
+						<input type="radio" th:field="*{gender}" th:value="${g}">
+						<label th:text="${g}"></label>
+					</li>
+				</ul>
+			</div>
+			<div class="form-group">
+				<label class="text" for="education">EDUCATION</label>
+				<ul id="education" class="list-inline">
+					<li class="list-inline-item" th:each="e : ${education}">
+						<input type="radio" th:field="*{education}" th:value="${e}">
+						<label th:text="${e}"></label>
+					</li>
+				</ul>
+			</div>
+			<p class="text text-danger" th:if="${errors.containsKey('education')}"
+			   th:text="${errors.get('education')}"></p>
+			<div class="form-group">
+				<label class="text" for="age">AGE</label>
+				<input id="age" type="number" class="form-control" th:field="*{age}"/>
+			</div>
+			<p class="text text-danger" th:if="${errors.containsKey('age')}" th:text="${errors.get('age')}"></p>
+			<div class="form-group">
+				<label class="text" for="constituency">CONSTITUENCY</label>
+				<select id="constituency" th:field="*{constituencyDto.id}">
+					<option th:each="c : ${constituencies}" th:value="${c.id}" th:text="${c.name}"></option>
+				</select>
+			</div>
+			<p class="text text-danger" th:if="${errors.containsKey('constituencyDTO')}"
+			   th:text="${errors.get('constituencyDTO')}"></p>
+			<p class="text text-danger" th:if="${errors.containsKey('gender')}" th:text="${errors.get('gender')}"></p>
+
+
+
+			<button class="btn btn-outline-secondary btn-block" type="submit">ADD NEW VOTER</button>
+
+		</form>
+	</div>
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+		crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+		crossorigin="anonymous"></script>
+</body>
+</html>

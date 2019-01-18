@@ -93,6 +93,15 @@ public class CandidateService {
         }
     }
 
+    public CandidateDto getOneCandidate(Long id) {
+        try {
+            Candidate candidate = candidateRepository.findById(id).orElseThrow(NullPointerException::new);
+            return modelMapper.fromCandidateToCandidateDto(candidate);
+        } catch (Exception e) {
+            throw new MyException(ExceptionCode.SERVICE, "GET ONE CANDIDATE");
+        }
+    }
+
     public void deleteCandidate(Long candidateId) {
         try {
             Candidate candidate = candidateRepository.findById(candidateId)
@@ -100,34 +109,6 @@ public class CandidateService {
             candidateRepository.delete(candidate);
         } catch (Exception e) {
             throw new MyException(ExceptionCode.SERVICE, "DELETE CANDIDATE: " + e);
-        }
-    }
-
-    public Map<CandidateDto, VoteDto> getAllCandidatesByVotes() {
-        try {
-            Map<Candidate, Vote> map = voteRepository
-                    .findAll()
-                    .stream()
-                    .collect(Collectors.toMap(
-                            e -> candidateRepository.findById(e.getCandidate().getId()).get(),
-                            Function.identity(),
-                            (v1, v2) -> v1,
-                            () -> new HashMap<>()
-                    ));
-
-            return map
-                    .entrySet()
-                    .stream()
-                    .sorted(Comparator.comparing(e -> e.getValue().getVotes(), Comparator.reverseOrder()))
-                    .collect(Collectors.toMap(
-                            e -> modelMapper.fromCandidateToCandidateDto(e.getKey()),
-                            e -> modelMapper.fromVoteToVoteDto(e.getValue()),
-                            (v1, v2) -> v1,
-                            () -> new LinkedHashMap<>()
-                    ));
-
-        } catch (Exception e) {
-            throw new MyException(ExceptionCode.SERVICE, "GET ALL CANDIDATES BY VOTES: " + e);
         }
     }
 }
